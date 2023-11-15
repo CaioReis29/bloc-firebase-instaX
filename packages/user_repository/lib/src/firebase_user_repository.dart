@@ -48,7 +48,9 @@ class FirebaseUserRepository implements UserRepository {
   // sair
   @override
   Future<void> logOut() async {
-    try {} catch (e) {
+    try {
+      await _auth.signOut();
+    } catch (e) {
       log(e.toString());
       rethrow;
     }
@@ -57,7 +59,9 @@ class FirebaseUserRepository implements UserRepository {
   // alterar senha
   @override
   Future<void> resetPass(String email) async {
-    try {} catch (e) {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
       log(e.toString());
       rethrow;
     }
