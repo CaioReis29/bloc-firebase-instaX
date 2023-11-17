@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData myTheme = ThemeData(
+  useMaterial3: true,
   colorScheme: const ColorScheme.light(
     background: Colors.white,
     onBackground: Colors.white,

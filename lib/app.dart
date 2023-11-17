@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:instax/main.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:instax/app_view.dart';
+import 'package:instax/blocs/auth_bloc/authentication_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final UserRepository userRepository;
+  const MyApp(this.userRepository, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'InstaX',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return MultiBlocProvider(
+      providers: [
+        RepositoryProvider<AuthenticationBloc>(
+          create: (c) => AuthenticationBloc(myUserRepository: userRepository),
+        ),
+      ],
+      child: const AppView(),
     );
   }
 }
