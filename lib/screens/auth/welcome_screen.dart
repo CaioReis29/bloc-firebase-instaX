@@ -1,4 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:instax/blocs/auth_bloc/authentication_bloc.dart';
+import 'package:instax/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:instax/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:instax/screens/auth/Sign_in.dart';
 import 'package:instax/screens/auth/sign_up.dart';
 
@@ -81,9 +85,21 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 Expanded(
                   child: TabBarView(
                     controller: tabController,
-                    children: const [
-                      SignIn(),
-                      SignUp(),
+                    children: [
+                      BlocProvider<SignInBloc>(
+                        create: (context) => SignInBloc(
+                            myUserRepository: context
+                                .read<AuthenticationBloc>()
+                                .userRepository),
+                        child: const SignIn(),
+                      ),
+                      BlocProvider<SignUpBloc>(
+                        create: (context) => SignUpBloc(
+                            myRepository: context
+                                .read<AuthenticationBloc>()
+                                .userRepository),
+                        child: const SignUp(),
+                      ),
                     ],
                   ),
                 )

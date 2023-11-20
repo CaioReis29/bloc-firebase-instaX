@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:user_repository/src/entities/entities.dart';
 import 'package:user_repository/src/models/my_user.dart';
 import 'package:user_repository/src/user_repo.dart';
@@ -100,6 +102,23 @@ class FirebaseUserRepository implements UserRepository {
               MyUserEntity.fromDocument(value.data()!),
             ),
           );
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  // adicionar foto
+  @override
+  Future<String> uploadPicture(String file, String userId) async {
+    try {
+      File imageFile = File(file);
+      Reference ref =
+          FirebaseStorage.instance.ref().child('$userId/PP/${userId}_lead');
+      await ref.putFile(imageFile);
+      String url = await ref.getDownloadURL();
+      await userCollection.doc(userId).update({"picture": url});
+      return url;
     } catch (e) {
       log(e.toString());
       rethrow;
