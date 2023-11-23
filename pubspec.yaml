@@ -19,6 +19,7 @@ dependencies:
   # firebase
   firebase_core: ^2.22.0
   firebase_auth: ^4.14.0
+  firebase_storage: ^11.5.1
   
   # bloc
   equatable: ^2.0.5
@@ -29,6 +30,9 @@ dependencies:
   # pacotes criados
   user_repository:
     path: packages/user_repository
+
+  post_repository:
+    path: packages/post_repository
 
 dev_dependencies:
   flutter_test:

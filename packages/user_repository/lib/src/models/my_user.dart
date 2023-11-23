@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:user_repository/src/entities/entities.dart';
 
+// ignore: must_be_immutable
 class MyUser extends Equatable {
   final String id;
   final String email;
   final String name;
-  final String? picture;
+  String? picture;
 
-  const MyUser({
+  MyUser({
     required this.id,
     required this.email,
     required this.name,
@@ -16,10 +17,11 @@ class MyUser extends Equatable {
 
   // usuário não encontrado
 
-  static const empty = MyUser(
+  static final empty = MyUser(
     id: '',
     email: '',
     name: '',
+    picture: '',
   );
 
   // modificar parâmetros de usuário
@@ -31,9 +33,10 @@ class MyUser extends Equatable {
     String? picture,
   }) {
     return MyUser(
-      id: id ?? "",
-      email: email ?? "",
-      name: name ?? "",
+      id: id ?? this.id,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      picture: picture ?? this.picture,
     );
   }
 
@@ -50,6 +53,7 @@ class MyUser extends Equatable {
       id: id,
       email: email,
       name: name,
+      picture: picture,
     );
   }
 

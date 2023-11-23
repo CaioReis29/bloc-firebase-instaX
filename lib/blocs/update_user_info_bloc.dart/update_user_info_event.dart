@@ -11,10 +11,10 @@ class UploadPicture extends UpdateUserInfoEvent {
   final String file;
   final String userId;
 
-  const UploadPicture({
-    required this.file,
-    required this.userId,
-  });
+  const UploadPicture(
+    this.file,
+    this.userId,
+  );
 
   @override
   List<Object> get props => [file, userId];
