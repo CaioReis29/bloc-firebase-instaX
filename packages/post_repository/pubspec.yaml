@@ -12,10 +12,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  uuid: ^4.2.1
   # bloc
   equatable: ^2.0.5
  
   # firebase
+  cloud_firestore: ^4.13.2
 
 
   user_repository:
