@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:instax/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:instax/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:instax/blocs/update_user_info_bloc.dart/update_user_info_bloc.dart';
+import 'package:instax/screens/home/post_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,7 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const PostScreen(),
+            ),
+          ),
           child: const Icon(
             Icons.add,
           ),
@@ -35,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           centerTitle: false,
           elevation: 0,
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           title:
               BlocBuilder<MyUserBloc, MyUserState>(builder: (context, state) {
             if (state.status == MyUserStatus.success) {
