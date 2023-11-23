@@ -12,8 +12,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # bloc
+  equatable: ^2.0.5
  
   # firebase
+
+
+  user_repository:
+    path: ../user_repository
   
 dev_dependencies:
   flutter_test:

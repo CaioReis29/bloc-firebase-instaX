@@ -27,16 +27,31 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const PostScreen(),
-            ),
-          ),
-          child: const Icon(
-            Icons.add,
-          ),
+        floatingActionButton: BlocBuilder<MyUserBloc, MyUserState>(
+          builder: (context, state) {
+            if (state.status == MyUserStatus.success) {
+              return FloatingActionButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (context) => PostScreen(
+                      myUser: state.user!,
+                    ),
+                  ),
+                ),
+                child: const Icon(
+                  Icons.add,
+                ),
+              );
+            } else {
+              return const FloatingActionButton(
+                onPressed: null,
+                child: Icon(
+                  Icons.clear,
+                ),
+              );
+            }
+          },
         ),
         appBar: AppBar(
           centerTitle: false,
