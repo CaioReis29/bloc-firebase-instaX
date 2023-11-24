@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -28,7 +29,7 @@ class PostEntity extends Equatable {
     return PostEntity(
       postId: doc["postId"] as String,
       post: doc["post"] as String,
-      createdAt: DateTime.parse(doc["createdAt"]),
+      createdAt: (doc["createdAt"] as Timestamp).toDate(),
       myUser: MyUser.fromEntity(
         MyUserEntity.fromDocument(doc["myUser"]),
       ),

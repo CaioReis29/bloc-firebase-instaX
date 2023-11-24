@@ -1,6 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:instax/blocs/create_post_bloc/create_post_bloc.dart';
 import 'package:post_repository/post_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -15,6 +18,8 @@ class PostScreen extends StatefulWidget {
 class _PostScreenState extends State<PostScreen> {
   late Post post;
 
+  final TextEditingController _textPostController = TextEditingController();
+
   @override
   void initState() {
     post = Post.empty;
@@ -25,40 +30,63 @@ class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
     log(post.toString());
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(
-            Icons.add,
+    return BlocListener<CreatePostBloc, CreatePostState>(
+      listener: (context, state) {
+        if (state is CreatePostSuccess) {
+          Navigator.pop(context);
+          Fluttertoast.showToast(
+            msg: "Compartilhado com sucesso!",
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+          );
+        }
+      },
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              if (_textPostController.text.isNotEmpty) {
+                setState(
+                  () => post.post = _textPostController.text,
+                );
+              }
+              context.read<CreatePostBloc>().add(
+                    CreatePost(post),
+                  );
+              log(post.toString());
+            },
+            child: const Icon(
+              Icons.add,
+            ),
           ),
-        ),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text('Faça sua postagem'),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              maxLines: 10,
-              maxLength: 500,
-              decoration: InputDecoration(
-                hintText: "Fale sobre seu post aqui...",
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: Colors.grey,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Colors.white,
+            centerTitle: true,
+            title: const Text('Faça sua postagem'),
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _textPostController,
+                maxLines: 10,
+                maxLength: 500,
+                decoration: InputDecoration(
+                  hintText: "Fale sobre seu post aqui...",
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: Colors.grey,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),

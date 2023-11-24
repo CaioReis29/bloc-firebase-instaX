@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instax/blocs/create_post_bloc/create_post_bloc.dart';
+import 'package:instax/blocs/get_post_bloc/get_post_bloc.dart';
 import 'package:instax/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:instax/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:instax/blocs/update_user_info_bloc.dart/update_user_info_bloc.dart';
 import 'package:instax/screens/home/post_screen.dart';
+import 'package:intl/intl.dart';
+import 'package:post_repository/post_repository.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,8 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (context) => PostScreen(
-                      myUser: state.user!,
+                    builder: (context) => BlocProvider<CreatePostBloc>(
+                      create: (context) => CreatePostBloc(
+                        myPostRepository: FirebasePostRepository(),
+                      ),
+                      child: PostScreen(
+                        myUser: state.user!,
+                      ),
                     ),
                   ),
                 ),
@@ -115,13 +124,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             }
                           },
                           child: Container(
-                              height: 50,
-                              width: 50,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(Icons.person)),
+                            height: 50,
+                            width: 50,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.person,
+                              color: Colors.black,
+                            ),
+                          ),
                         )
                       : Container(
                           width: 50,
@@ -140,10 +153,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Text(
-                    "Bem-vindo, Caio",
-                    style: TextStyle(
+                  Text(
+                    "Bem-vindo(a), ${state.user!.name}",
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                 ],
@@ -166,57 +180,84 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        body: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: double.infinity,
-                // height: 400,
-                // color: Colors.blue,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
+        body: BlocBuilder<GetPostBloc, GetPostState>(
+          builder: (context, state) {
+            if (state is GetPostSuccess) {
+              return ListView.builder(
+                itemCount: state.posts.length,
+                itemBuilder: (context, index) {
+                  final user = state.posts[index].myUser;
+                  final post = state.posts[index];
+
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      // height: 400,
+                      // color: Colors.blue,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        user.picture!,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    user.name,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    DateFormat('dd/MM/yyy').format(
+                                      post.createdAt,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              post.post,
+                              textAlign: TextAlign.left,
                             ),
                           ),
-                        ),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Caio",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text("2023-04-12"),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: const Text(
-                          "f iuqwefqowebfuqewf87qefuqiewfpebfqubufewfipewuifqiufiewbf7bwefubqwubfuwefiqwebfkuiwefqweofuqeqwiuffieoqwfqhbwefiueewoqin[erj0wunr09u320[rcnu23r9u[439urcn ru43ru29jrcmu934r]]]",
-                        ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            );
+                  );
+                },
+              );
+            } else if (state is GetPostLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return const Center(
+                child: Text("Erro ao carregar seu feed"),
+              );
+            }
           },
         ),
       ),
