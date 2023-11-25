@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 10,
                   ),
                   Text(
-                    "Bem-vindo(a), ${state.user!.name}",
+                    "Olá, ${state.user!.name}",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -170,9 +170,11 @@ class _HomeScreenState extends State<HomeScreen> {
           }),
           actions: [
             IconButton(
-              onPressed: () => context.read<SignInBloc>().add(
-                    const SignOutRequired(),
-                  ),
+              onPressed: () {
+                context.read<SignInBloc>().add(
+                      const SignOutRequired(),
+                    );
+              },
               icon: Icon(
                 Icons.login_outlined,
                 color: Theme.of(context).colorScheme.onBackground,

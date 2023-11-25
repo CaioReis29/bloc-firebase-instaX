@@ -21,13 +21,11 @@ class AuthenticationBloc
       add(AuthenticationUserChanged(authUser));
     });
     on<AuthenticationUserChanged>((event, emit) {
-      try {
-        if (event.user != null) {
-          emit(
-            AuthenticationState.authenticaded(event.user!),
-          );
-        }
-      } catch (e) {
+      if (event.user != null) {
+        emit(
+          AuthenticationState.authenticaded(event.user!),
+        );
+      } else {
         emit(
           const AuthenticationState.unauthenticaded(),
         );

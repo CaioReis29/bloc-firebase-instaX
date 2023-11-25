@@ -19,8 +19,8 @@ class AppView extends StatelessWidget {
       title: "InstaX",
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: const ColorScheme.dark(
-          background: Colors.black,
+        colorScheme: const ColorScheme.light(
+          background: Colors.white,
           onBackground: Colors.black,
           primary: Color.fromRGBO(206, 147, 216, 1),
           secondary: Colors.black,
