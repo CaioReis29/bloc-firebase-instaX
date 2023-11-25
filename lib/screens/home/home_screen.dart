@@ -182,85 +182,98 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        body: BlocBuilder<GetPostBloc, GetPostState>(
-          builder: (context, state) {
-            if (state is GetPostSuccess) {
-              return ListView.builder(
-                itemCount: state.posts.length,
-                itemBuilder: (context, index) {
-                  final user = state.posts[index].myUser;
-                  final post = state.posts[index];
+        body: RefreshIndicator(
+          onRefresh: () async => context.read<GetPostBloc>().add(GetPosts()),
+          child: BlocBuilder<GetPostBloc, GetPostState>(
+            builder: (context, state) {
+              if (state is GetPostSuccess) {
+                return ListView.builder(
+                  itemCount: state.posts.length,
+                  itemBuilder: (context, index) {
+                    final user = state.posts[index].myUser;
+                    final post = state.posts[index];
 
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      // height: 400,
-                      // color: Colors.blue,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        user.picture!,
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: (user.picture != null)
+                                        ? Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  user.picture!,
+                                                ),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.black,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: const Icon(
+                                              Icons.person,
+                                              color: Colors.white,
+                                            ),
+                                          )),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      user.name,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      fit: BoxFit.cover,
                                     ),
-                                  ),
+                                    Text(
+                                      DateFormat('dd/MM/yyy').format(
+                                        post.createdAt,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    user.name,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    DateFormat('dd/MM/yyy').format(
-                                      post.createdAt,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              post.post,
-                              textAlign: TextAlign.left,
+                              ],
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                post.post,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              );
-            } else if (state is GetPostLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return const Center(
-                child: Text("Erro ao carregar seu feed"),
-              );
-            }
-          },
+                    );
+                  },
+                );
+              } else if (state is GetPostLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return const Center(
+                  child: Text("Erro ao carregar seu feed"),
+                );
+              }
+            },
+          ),
         ),
       ),
     );

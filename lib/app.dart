@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instax/app_view.dart';
 import 'package:instax/blocs/auth_bloc/authentication_bloc.dart';
+import 'package:instax/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatelessWidget {
@@ -12,6 +13,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => MyUserBloc(
+            myUserRepository: context.read<AuthenticationBloc>().userRepository,
+          )..add(
+              GetMyUser(
+                myUserId: context.read<AuthenticationBloc>().state.user!.uid,
+              ),
+            ),
+        ),
         RepositoryProvider<AuthenticationBloc>(
           create: (c) => AuthenticationBloc(myUserRepository: userRepository),
         ),

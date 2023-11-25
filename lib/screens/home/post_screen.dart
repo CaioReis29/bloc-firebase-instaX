@@ -9,7 +9,10 @@ import 'package:user_repository/user_repository.dart';
 
 class PostScreen extends StatefulWidget {
   final MyUser myUser;
-  const PostScreen({required this.myUser, super.key});
+  const PostScreen({
+    required this.myUser,
+    super.key,
+  });
 
   @override
   State<PostScreen> createState() => _PostScreenState();
@@ -44,20 +47,23 @@ class _PostScreenState extends State<PostScreen> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              if (_textPostController.text.isNotEmpty) {
-                setState(
-                  () => post.post = _textPostController.text,
-                );
-              }
-              context.read<CreatePostBloc>().add(
-                    CreatePost(post),
+          floatingActionButton: ClipRRect(
+            borderRadius: BorderRadius.circular(80),
+            child: FloatingActionButton(
+              onPressed: () {
+                if (_textPostController.text.isNotEmpty) {
+                  setState(
+                    () => post.post = _textPostController.text,
                   );
-              log(post.toString());
-            },
-            child: const Icon(
-              Icons.add,
+                }
+                context.read<CreatePostBloc>().add(
+                      CreatePost(post),
+                    );
+                log(post.toString());
+              },
+              child: const Icon(
+                Icons.add,
+              ),
             ),
           ),
           appBar: AppBar(

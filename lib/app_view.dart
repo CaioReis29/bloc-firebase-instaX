@@ -16,7 +16,7 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "InstaX",
+      title: "FlutterX",
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: const ColorScheme.light(
