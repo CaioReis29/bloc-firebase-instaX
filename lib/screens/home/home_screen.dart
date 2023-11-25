@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: const Icon(
                   Icons.add,
+                  color: Colors.white,
                 ),
               );
             } else {
@@ -136,17 +137,67 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         )
-                      : Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                state.user!.picture!,
+                      : GestureDetector(
+                          onTap: () async {
+                            final ImagePicker picker = ImagePicker();
+                            final XFile? image = await picker.pickImage(
+                              source: ImageSource.gallery,
+                              maxHeight: 500,
+                              maxWidth: 500,
+                              imageQuality: 40,
+                            );
+                            if (image != null) {
+                              CroppedFile? croppedFile =
+                                  await ImageCropper().cropImage(
+                                sourcePath: image.path,
+                                aspectRatio: const CropAspectRatio(
+                                  ratioX: 1,
+                                  ratioY: 1,
+                                ),
+                                aspectRatioPresets: [
+                                  CropAspectRatioPreset.square
+                                ],
+                                uiSettings: [
+                                  AndroidUiSettings(
+                                    toolbarTitle: 'Cropper',
+                                    toolbarColor:
+                                        const Color.fromRGBO(206, 147, 216, 1),
+                                    toolbarWidgetColor: Colors.white,
+                                    initAspectRatio:
+                                        CropAspectRatioPreset.original,
+                                    lockAspectRatio: false,
+                                  ),
+                                  IOSUiSettings(
+                                    title: 'Cropper',
+                                  ),
+                                ],
+                              );
+                              setState(() {
+                                context.read<UpdateUserInfoBloc>().add(
+                                      UploadPicture(
+                                        croppedFile!.path,
+                                        context
+                                            .read<MyUserBloc>()
+                                            .state
+                                            .user!
+                                            .id,
+                                      ),
+                                    );
+                              });
+                            }
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  state.user!.picture!,
+                                ),
+                                fit: BoxFit.cover,
                               ),
-                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -157,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     "Olá, ${state.user!.name}",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -183,6 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         body: RefreshIndicator(
+          backgroundColor: Colors.white,
           onRefresh: () async => context.read<GetPostBloc>().add(GetPosts()),
           child: BlocBuilder<GetPostBloc, GetPostState>(
             builder: (context, state) {
@@ -190,8 +242,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 return ListView.builder(
                   itemCount: state.posts.length,
                   itemBuilder: (context, index) {
-                    final user = state.posts[index].myUser;
-                    final post = state.posts[index];
+                    List<Post> sortedPosts = List.from(state.posts);
+                    sortedPosts
+                        .sort((a, b) => b.createdAt.compareTo(a.createdAt));
+                    final user = sortedPosts[index].myUser;
+                    final post = sortedPosts[index];
 
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -204,7 +259,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: (user.picture != null)
+                                    child: (user.picture != null ||
+                                            user.picture != "")
                                         ? Container(
                                             width: 50,
                                             height: 50,

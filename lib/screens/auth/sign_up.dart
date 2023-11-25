@@ -59,8 +59,9 @@ class _SignUpState extends State<SignUp> {
                 hintText: "Nome",
                 isObscure: false,
                 keyboardType: TextInputType.name,
-                prefixIcon: const Icon(
+                prefixIcon: Icon(
                   CupertinoIcons.person_crop_circle,
+                  color: Colors.grey[700],
                   size: 30,
                 ),
                 validator: (value) {
@@ -84,7 +85,10 @@ class _SignUpState extends State<SignUp> {
                 hintText: "E-mail",
                 isObscure: false,
                 keyboardType: TextInputType.emailAddress,
-                prefixIcon: const Icon(CupertinoIcons.mail_solid),
+                prefixIcon: Icon(
+                  CupertinoIcons.mail_solid,
+                  color: Colors.grey[700],
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Esse campo precisa ser preenchido";
@@ -106,7 +110,10 @@ class _SignUpState extends State<SignUp> {
                 hintText: "Senha",
                 isObscure: isSecret,
                 keyboardType: TextInputType.visiblePassword,
-                prefixIcon: const Icon(CupertinoIcons.lock_fill),
+                prefixIcon: Icon(
+                  CupertinoIcons.lock_fill,
+                  color: Colors.grey[700],
+                ),
                 onChanged: (value) {
                   if (value!.contains(RegExp(r'[A-Z]'))) {
                     setState(() {
@@ -170,9 +177,12 @@ class _SignUpState extends State<SignUp> {
                       isSecret = !isSecret;
                     });
                   },
-                  icon: Icon(isSecret
-                      ? CupertinoIcons.eye_slash_fill
-                      : CupertinoIcons.eye_fill),
+                  icon: Icon(
+                    isSecret
+                        ? CupertinoIcons.eye_slash_fill
+                        : CupertinoIcons.eye_fill,
+                    color: Colors.grey[700],
+                  ),
                 ),
               ),
             ),
@@ -189,21 +199,21 @@ class _SignUpState extends State<SignUp> {
                     Text(
                       "●  1 Letra maiúscula",
                       style: TextStyle(
-                        color: containsUpperCase ? Colors.green : Colors.red,
+                        color: containsUpperCase ? Colors.green : Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       "●  1 Letra minúscula",
                       style: TextStyle(
-                        color: containsLowerCase ? Colors.green : Colors.red,
+                        color: containsLowerCase ? Colors.green : Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       "●  1 Número",
                       style: TextStyle(
-                        color: containsNumber ? Colors.green : Colors.red,
+                        color: containsNumber ? Colors.green : Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -215,14 +225,15 @@ class _SignUpState extends State<SignUp> {
                     Text(
                       "●  1 Caractere especial",
                       style: TextStyle(
-                        color: containsSpecialChar ? Colors.green : Colors.red,
+                        color:
+                            containsSpecialChar ? Colors.green : Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       "●  8 Caracteres no mínimo",
                       style: TextStyle(
-                        color: contains8Length ? Colors.green : Colors.red,
+                        color: contains8Length ? Colors.green : Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

@@ -30,6 +30,7 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: const TextStyle(color: Colors.black),
       validator: validator,
       controller: controller,
       obscureText: isObscure,
@@ -42,7 +43,7 @@ class MyTextField extends StatelessWidget {
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
           borderSide: const BorderSide(
             color: Colors.transparent,
           ),
@@ -56,7 +57,7 @@ class MyTextField extends StatelessWidget {
         filled: true,
         fillColor: Colors.grey.shade200,
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey[500]),
+        hintStyle: TextStyle(color: Colors.grey[700]),
         errorText: errorMessage,
       ),
     );

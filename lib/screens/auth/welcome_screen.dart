@@ -66,7 +66,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         "Entrar",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -76,7 +76,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         "Cadastrar",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ),

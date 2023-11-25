@@ -47,23 +47,21 @@ class _PostScreenState extends State<PostScreen> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          floatingActionButton: ClipRRect(
-            borderRadius: BorderRadius.circular(80),
-            child: FloatingActionButton(
-              onPressed: () {
-                if (_textPostController.text.isNotEmpty) {
-                  setState(
-                    () => post.post = _textPostController.text,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              if (_textPostController.text.isNotEmpty) {
+                setState(
+                  () => post.post = _textPostController.text,
+                );
+              }
+              context.read<CreatePostBloc>().add(
+                    CreatePost(post),
                   );
-                }
-                context.read<CreatePostBloc>().add(
-                      CreatePost(post),
-                    );
-                log(post.toString());
-              },
-              child: const Icon(
-                Icons.add,
-              ),
+              log(post.toString());
+            },
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
             ),
           ),
           appBar: AppBar(

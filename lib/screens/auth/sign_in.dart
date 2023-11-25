@@ -56,7 +56,10 @@ class _SignInState extends State<SignIn> {
                 hintText: "E-mail",
                 isObscure: false,
                 keyboardType: TextInputType.emailAddress,
-                prefixIcon: const Icon(CupertinoIcons.mail_solid),
+                prefixIcon: Icon(
+                  CupertinoIcons.mail_solid,
+                  color: Colors.grey[700],
+                ),
                 errorMessage: errorMsg,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -79,7 +82,10 @@ class _SignInState extends State<SignIn> {
                 hintText: "Senha",
                 isObscure: isSecret,
                 keyboardType: TextInputType.visiblePassword,
-                prefixIcon: const Icon(CupertinoIcons.lock_fill),
+                prefixIcon: Icon(
+                  CupertinoIcons.lock_fill,
+                  color: Colors.grey[700],
+                ),
                 errorMessage: errorMsg,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -96,9 +102,12 @@ class _SignInState extends State<SignIn> {
                       isSecret = !isSecret;
                     });
                   },
-                  icon: Icon(isSecret
-                      ? CupertinoIcons.eye_slash_fill
-                      : CupertinoIcons.eye_fill),
+                  icon: Icon(
+                    isSecret
+                        ? CupertinoIcons.eye_slash_fill
+                        : CupertinoIcons.eye_fill,
+                    color: Colors.grey[700],
+                  ),
                 ),
               ),
             ),

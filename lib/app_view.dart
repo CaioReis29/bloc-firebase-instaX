@@ -19,11 +19,11 @@ class AppView extends StatelessWidget {
       title: "FlutterX",
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: const ColorScheme.light(
-          background: Colors.white,
-          onBackground: Colors.black,
-          primary: Color.fromRGBO(206, 147, 216, 1),
-          secondary: Colors.black,
+        colorScheme: const ColorScheme.dark(
+          background: Colors.black54,
+          onBackground: Colors.white,
+          primary: Color.fromRGBO(167, 80, 123, 1),
+          secondary: Colors.white,
           onSecondary: Color.fromRGBO(244, 143, 177, 1),
           tertiary: Color.fromRGBO(255, 204, 128, 1),
           error: Colors.red,
