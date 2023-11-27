@@ -258,48 +258,52 @@ class _HomeScreenState extends State<HomeScreen> {
                             Row(
                               children: [
                                 Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: (user.picture != null ||
-                                            user.picture != "")
-                                        ? Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                  user.picture!,
-                                                ),
-                                                fit: BoxFit.cover,
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: (user.picture != null ||
+                                          user.picture != "")
+                                      ? Container(
+                                          width: 70,
+                                          height: 70,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                user.picture!,
                                               ),
+                                              fit: BoxFit.cover,
                                             ),
-                                          )
-                                        : Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.black,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: const Icon(
-                                              Icons.person,
-                                              color: Colors.white,
-                                            ),
-                                          )),
+                                          ),
+                                        )
+                                      : Container(
+                                          width: 70,
+                                          height: 70,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Icon(
+                                            Icons.person,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       user.name,
                                       style: const TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 23,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
-                                      DateFormat('dd/MM/yyy').format(
+                                      DateFormat('dd/MM/yyy hh:mm').format(
                                         post.createdAt,
+                                      ),
+                                      style: const TextStyle(
+                                        color: Colors.grey,
                                       ),
                                     ),
                                   ],
@@ -311,6 +315,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Text(
                                 post.post,
                                 textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 80),
+                              child: Divider(
+                                color: Colors.grey,
+                                height: 0.5,
+                                thickness: 0.2,
                               ),
                             ),
                           ],

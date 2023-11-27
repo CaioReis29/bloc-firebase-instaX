@@ -6,12 +6,14 @@ import 'package:user_repository/user_repository.dart';
 class Post extends Equatable {
   String postId;
   String post;
+  String picturePost;
   DateTime createdAt;
   MyUser myUser;
 
   Post({
     required this.postId,
     required this.post,
+    required this.picturePost,
     required this.createdAt,
     required this.myUser,
   });
@@ -19,6 +21,7 @@ class Post extends Equatable {
   static final empty = Post(
     postId: '',
     post: '',
+    picturePost: '',
     createdAt: DateTime.now(),
     myUser: MyUser.empty,
   );
@@ -26,12 +29,14 @@ class Post extends Equatable {
   Post copyWith({
     String? postId,
     String? post,
+    String? picturePost,
     DateTime? createdAt,
     MyUser? myUser,
   }) {
     return Post(
       postId: postId ?? this.postId,
       post: post ?? this.post,
+      picturePost: picturePost ?? this.picturePost,
       createdAt: createdAt ?? this.createdAt,
       myUser: myUser ?? this.myUser,
     );
@@ -45,6 +50,7 @@ class Post extends Equatable {
     return PostEntity(
       postId: postId,
       post: post,
+      picturePost: picturePost,
       createdAt: createdAt,
       myUser: myUser,
     );
@@ -54,6 +60,7 @@ class Post extends Equatable {
     return Post(
       postId: entity.postId,
       post: entity.post,
+      picturePost: entity.picturePost,
       createdAt: entity.createdAt,
       myUser: entity.myUser,
     );
@@ -64,6 +71,7 @@ class Post extends Equatable {
     return '''Post: {
       postId: $postId,
       post: $post,
+      picturePost: $picturePost,
       createdAt: $createdAt,
       myUser: $myUser,
     }
@@ -71,5 +79,5 @@ class Post extends Equatable {
   }
 
   @override
-  List<Object?> get props => [postId, post, createdAt, myUser];
+  List<Object?> get props => [postId, post, picturePost, createdAt, myUser];
 }

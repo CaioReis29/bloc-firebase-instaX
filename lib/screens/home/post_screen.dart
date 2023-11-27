@@ -74,25 +74,37 @@ class _PostScreenState extends State<PostScreen> {
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _textPostController,
-                maxLines: 10,
-                maxLength: 500,
-                decoration: InputDecoration(
-                  hintText: "Fale sobre seu post aqui...",
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      color: Colors.grey,
+              child: Column(
+                children: [
+                  Container(
+                    height: 500,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.rectangle,
                     ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      color: Colors.grey,
+                  TextField(
+                    controller: _textPostController,
+                    maxLines: 10,
+                    maxLength: 500,
+                    decoration: InputDecoration(
+                      hintText: "Fale sobre seu post aqui...",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
           ),

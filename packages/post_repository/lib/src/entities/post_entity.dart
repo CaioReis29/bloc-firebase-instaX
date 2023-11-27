@@ -6,12 +6,14 @@ import 'package:user_repository/user_repository.dart';
 class PostEntity extends Equatable {
   String postId;
   String post;
+  String picturePost;
   DateTime createdAt;
   MyUser myUser;
 
   PostEntity({
     required this.postId,
     required this.post,
+    required this.picturePost,
     required this.createdAt,
     required this.myUser,
   });
@@ -20,6 +22,7 @@ class PostEntity extends Equatable {
     return {
       "postId": postId,
       "post": post,
+      "picturePost": picturePost,
       "createdAt": createdAt,
       "myUser": myUser.toEntity().toDocument(),
     };
@@ -29,6 +32,7 @@ class PostEntity extends Equatable {
     return PostEntity(
       postId: doc["postId"] as String,
       post: doc["post"] as String,
+      picturePost: doc["picturePost"] as String,
       createdAt: (doc["createdAt"] as Timestamp).toDate(),
       myUser: MyUser.fromEntity(
         MyUserEntity.fromDocument(doc["myUser"]),
@@ -37,13 +41,14 @@ class PostEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [postId, post, createdAt, myUser];
+  List<Object?> get props => [postId, post, picturePost, createdAt, myUser];
 
   @override
   String toString() {
     return '''PostEntity: {
       postId: $postId,
       post: $post,
+      picturePost: $picturePost,
       createdAt: $createdAt,
       myUser: $myUser,
     }
